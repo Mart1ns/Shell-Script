@@ -1,79 +1,51 @@
-#!/bin/bash
-#echo "                          (_) |         | |           "
-#echo "  ___ ___  _ __ ___  _ __  _| | __ _  __| | ___  _ __ "
-#echo " / __/ _ \| '_ ` _ \| '_ \| | |/ _` |/ _` |/ _ \| '__|"
-#echo "| (_| (_) | | | | | | |_) | | | (_| | (_| | (_) | |   "
-#echo " \___\___/|_| |_| |_| .__/|_|_|\__,_|\__,_|\___/|_|   "
-#echo "                    | |                               "
-#echo "                    |_|                               "
+ 777#!/Bin/bash
+
+diretorio=`pwd`
+nome=`whoami`
 
 
-
+clear
 echo " "
 echo " "
-echo "      |*|*************************************|*|"
-echo "      |*|*************************************|*|"
-echo "      |*|      Compilador Shell (by KMZ)      |*|"
-echo "      |*|*************************************|*|"
-echo "      |*|*************************************|*|"
+echo "	                            .__.__              .___              	"       
+echo "	  ____  ____   _____ ______ |__|  | _____     __| _/___________   	"
+echo "	_/ ___\/  _ \ /     ||____ \|  |  | \__  \   / __ |/  _ \_  __ \  	"
+echo "	\  \__(  <_> )  Y Y  \  |_> >  |  |__/ __ \_/ /_/ (  <_> )  | \/  	"
+echo "	 \___  >____/|__|_|  /   __/|__|____(____  /\____ |\____/|__|     	"
+echo " 	     \/            \/|__|                \/      \/               	"
 echo " "
 echo " "
-echo "      |*|-> Deseja executar o programa? 1 = Sim || 0 = Não "
-read dec_loop
-# $dec_loop = '0'
-while [ "$dec_loop" == "1" ];
-    do          
-                echo " "
-                echo "      |*|->  Usuário ,digite um [1] para compilar o programa anterior "
-                echo "      |*|->  Ou digite [2] para executar o programa compilado anteriormente"
-                echo " "
-                # controle="0" ---> Alterar
 
-                read dec
-                if [ "$dec" ==  "2" ];
-                    then
-                        # $controle=$(($controle+1)) --> Alterar
-                        diretorio=`pwd`
-                        # rm -rf `$diretorio -iname "*.exe"`
 
-                        # rm -rf find "$diretorio" -iname "*.exe"
-                        
-                        clear
-                        echo "      |*|-> Diretorio Atual: $diretorio"
-                        echo "      |*|-> Informe o nome do programa que você deseja compilar: "
-                        echo "      |*|-> "
-                        read nome_do_programa
-                        
-                        echo "      |*|-> Informe o nome do executável que irá ser gerado: "
-                        read nome_do_programa_gerado
-                        echo " "
-                        echo " "
-                        echo " "
-                        # $programa_anterior=$nome_do_programa_gerado
-                        gcc "$nome_do_programa".c -o "$nome_do_programa_gerado"
-                        ./"$nome_do_programa_gerado"
-                        clear
 
-                elif [ "$dec" ==  "1" ];
-                    then
-                        ./"$nome_do_programa_gerado"
-                # elif [ "$dec" ==  "1" ];
-                #    then
-                #        # pwd >> diretorio.txt
-                #       find ./"$diretorio" -name '*.c' 
-                #       gcc ./"*.c"
+dec=$(zenity --title="Compilador SHELL(by kMZ)" --text "   [1] = Continuar execução \n   [2] = Encerrar execução" --entry --width="380" --height="40") // --> Entradas de dados !
 
-                fi
+while [ "$dec" -eq 1 ]; 
+do
 
-                echo " "
-                echo "      |*|-> Deseja Continuar a execução do programa? 1 = Sim || 2 = Não  "
-                read dec_loop
-                clear
-                                                                                                   
-                #if [ "$dec_loop" == "1"];
-                #    then
-                #      $dec_loop=$(($dec_loop+1))
-                # fi
+	op=$(zenity --title="Compilador SHELL(by kMZ)" --text "   1 = Compilar um novo arquivo.c \n   2 = Executar o programa anterior" --entry --width="380" --height="40") // --> Entradas de dados !
+		
+	
+	if [ "$op" -eq  1 ]; // --> Comparar o valor de entrada !
+	then
+	
+		zenity --info --title="Compilador SHELL(by kMZ)" --text="Seu diretório atual: $diretorio\nUsuário atual: $nome" --window-icon="warning" --width="380" --height="40"
 
-done
-
+		nome_do_programa=$(zenity --file-selection --title="Escolha o arquivo para compilar" --file-filter="*.c") 
+		nome_do_programa_executavel=$(zenity --title="Compilador SHELL(by kMZ)" --text="   Informe o nome do arquivo gerado" --entry) // --> Escolher o arquivo .C
+		gcc "$nome_do_programa" -o "$nome_do_programa_executavel"
+		./$nome_do_programa_executavel // --> Executar o arquivo gerado !
+		clear // --> Limpar o terminal
+		//echo " "
+		//echo " "
+			
+	elif [ "$op" -eq  2 ]; // --> Comparar o valor de entrada !
+	then
+		clear
+                ./$nome_do_programa_executavel // --> Executar o arquivo gerado anteriormente  !
+                 
+        else
+       		zenity --info --title="Compilador SHELL(by kMZ)" --text="Tchau!" --window-icon="warning" --width=380 --height=40
+       		break
+       fi 
+done // --> Encerrar o programa !
